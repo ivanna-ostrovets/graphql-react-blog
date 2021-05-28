@@ -3,6 +3,7 @@ import { gql } from 'apollo-server';
 export const typeDefs = gql`
   scalar EmailAddress
   scalar Date
+  scalar URL
 
   enum Gender {
     FEMALE
