@@ -1,5 +1,8 @@
+import { EmailAddressResolver } from 'graphql-scalars';
+
 export const resolvers = {
   Query: {
-    hello: () => 'world',
+    users: () => [] as unknown[],
   },
+  EmailAddress: EmailAddressResolver,
 };
