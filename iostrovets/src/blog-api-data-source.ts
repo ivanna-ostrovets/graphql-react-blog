@@ -1,4 +1,5 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
+import { paginate } from './utils/paginate';
 
 const GENDERS = ['FEMALE', 'MALE', 'OTHER'];
 
@@ -34,6 +35,10 @@ export class BlogAPI extends RESTDataSource {
     });
   }
 
+  async getPostsPaginated({ pageNumber, pageSize }) {
+    return paginate({ data: await this.getPosts(), pageNumber, pageSize });
+  }
+
   async getPostById(id: string | number) {
     return this.get(`posts/${id}`);
   }
@@ -51,6 +56,10 @@ export class BlogAPI extends RESTDataSource {
     }));
   }
 
+  async getUsersPaginated({ pageNumber, pageSize }) {
+    return paginate({ data: await this.getUsers(), pageNumber, pageSize });
+  }
+
   async getUserById(id: string | number) {
     return {
       ...(await this.get(`users/${id}`)),
@@ -63,6 +72,10 @@ export class BlogAPI extends RESTDataSource {
       ...comment,
       dateCreated: new Date(),
     }));
+  }
+
+  async getCommentsPaginated({ pageNumber, pageSize }) {
+    return paginate({ data: await this.getComments(), pageNumber, pageSize });
   }
 
   async getCommentById(id: string | number) {

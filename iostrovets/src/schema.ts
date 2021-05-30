@@ -45,15 +45,40 @@ export const typeDefs = gql`
     dateCreated: String! @FormatDate
   }
 
+  type PostsPaginated {
+    data: [Post!]!
+    info: PaginationInfo
+  }
+
+  type UsersPaginated {
+    data: [User!]!
+    info: PaginationInfo
+  }
+
+  type CommentsPaginated {
+    data: [Comment!]!
+    info: PaginationInfo
+  }
+
+  "Additional information returned from paginate function"
+  type PaginationInfo {
+    currentPage: Int!
+    total: Int!
+    pagesLeft: Int!
+  }
+
   type Query {
     posts: [Post!]!
+    postsPaginated(pageNumber: Int, pageSize: Int): PostsPaginated
     postById(id: ID!): Post
     postsByUser(userId: ID!): [Post!]!
 
     users: [User!]!
+    usersPaginated(pageNumber: Int, pageSize: Int): UsersPaginated
     userById(id: ID!): User
 
     comments: [Comment!]!
+    commentsPaginated(pageNumber: Int, pageSize: Int): CommentsPaginated
     commentById(id: ID!): Comment
     commentsByUser(userId: ID!): [Comment!]!
     commentsByPost(postId: ID!): [Comment!]!

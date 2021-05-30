@@ -8,6 +8,9 @@ export const resolvers: IResolvers = {
     posts: (parent, args, { dataSources }) => {
       return dataSources.blogApi.getPosts();
     },
+    postsPaginated: (parent, { pageNumber, pageSize }, { dataSources }) => {
+      return dataSources.blogApi.getPostsPaginated({ pageNumber, pageSize });
+    },
     postById: (parent, { id }, { dataSources }) => {
       return dataSources.blogApi.getPostById(id);
     },
@@ -18,12 +21,18 @@ export const resolvers: IResolvers = {
     users: (parent, args, { dataSources }) => {
       return dataSources.blogApi.getUsers();
     },
+    usersPaginated: (parent, { pageNumber, pageSize }, { dataSources }) => {
+      return dataSources.blogApi.getUsersPaginated({ pageNumber, pageSize });
+    },
     userById: (parent, { id }, { dataSources }) => {
       return dataSources.blogApi.getUserById(id);
     },
 
     comments: (parent, args, { dataSources }) => {
       return dataSources.blogApi.getComments();
+    },
+    commentsPaginated: (parent, { pageNumber, pageSize }, { dataSources }) => {
+      return dataSources.blogApi.getCommentsPaginated({ pageNumber, pageSize });
     },
     commentById: (parent, { id }, { dataSources }) => {
       return dataSources.blogApi.getCommentById(id);
