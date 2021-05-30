@@ -4,7 +4,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "es2020",
-    "noImplicitAny": true,
     "moduleResolution": "node"
   },
   "include": [

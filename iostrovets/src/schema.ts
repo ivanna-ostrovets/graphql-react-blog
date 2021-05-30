@@ -46,8 +46,16 @@ export const typeDefs = gql`
   }
 
   type Query {
-    users: [User!]!
     posts: [Post!]!
+    postById(id: ID!): Post
+    postsByUser(userId: ID!): [Post!]!
+
+    users: [User!]!
+    userById(id: ID!): User
+
     comments: [Comment!]!
+    commentById(id: ID!): Comment
+    commentsByUser(userId: ID!): [Comment!]!
+    commentsByPost(postId: ID!): [Comment!]!
   }
 `;
