@@ -5,6 +5,8 @@ export const typeDefs = gql`
   scalar Date
   scalar URL
 
+  directive @FormatDate on FIELD_DEFINITION
+
   enum Gender {
     FEMALE
     MALE
@@ -40,6 +42,7 @@ export const typeDefs = gql`
     body: String!
     post: Post!
     email: EmailAddress!
+    dateCreated: String! @FormatDate
   }
 
   type Query {
