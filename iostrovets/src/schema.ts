@@ -31,10 +31,20 @@ export const typeDefs = gql`
     user: User!
     dateCreated: Date!
     photo: Photo
+    comments: [Comment!]!
+  }
+
+  type Comment {
+    id: ID!
+    name: String!
+    body: String!
+    post: Post!
+    email: EmailAddress!
   }
 
   type Query {
     users: [User!]!
     posts: [Post!]!
+    comments: [Comment!]!
   }
 `;

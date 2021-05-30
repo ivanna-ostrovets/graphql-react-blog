@@ -6,6 +6,7 @@ export const resolvers = {
   Query: {
     users: () => [] as unknown[],
     posts: () => [] as unknown[],
+    comments: () => [] as unknown[],
   },
   EmailAddress: EmailAddressResolver,
   Date: DateScalar,
