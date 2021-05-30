@@ -11,6 +11,11 @@ export const typeDefs = gql`
     OTHER
   }
 
+  type Photo {
+    url: URL!
+    thumbnailUrl: URL
+  }
+
   type User {
     id: ID!
     name: String!
@@ -19,7 +24,17 @@ export const typeDefs = gql`
     username: String
   }
 
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    user: User!
+    dateCreated: Date!
+    photo: Photo
+  }
+
   type Query {
     users: [User!]!
+    posts: [Post!]!
   }
 `;

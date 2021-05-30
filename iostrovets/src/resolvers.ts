@@ -5,6 +5,7 @@ import { URLScalar } from './custom-scalars/url';
 export const resolvers = {
   Query: {
     users: () => [] as unknown[],
+    posts: () => [] as unknown[],
   },
   EmailAddress: EmailAddressResolver,
   Date: DateScalar,
