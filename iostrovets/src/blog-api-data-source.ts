@@ -14,25 +14,10 @@ export class BlogAPI extends RESTDataSource {
   }
 
   async getPosts() {
-    const posts = await this.get('posts');
-    const photos = await this.get('/albums/1/photos');
-
-    return posts.map(async (post) => {
-      const photo = getRandomValueFromArray(photos);
-      const user = await this.getUserById(post.userId);
-      const comments = await this.getCommentsByPost(post.id);
-
-      return {
-        ...post,
-        user,
-        comments,
-        dateCreated: new Date(),
-        photo: {
-          url: photo.url,
-          thumbnailUrl: photo.thumbnailUrl,
-        },
-      };
-    });
+    return (await this.get('posts')).map(async (post) => ({
+      ...post,
+      dateCreated: new Date(),
+    }));
   }
 
   async getPostsPaginated({ pageNumber, pageSize }) {
@@ -97,5 +82,15 @@ export class BlogAPI extends RESTDataSource {
       ...comment,
       dateCreated: new Date(),
     }));
+  }
+
+  async getPhoto() {
+    const photos = await this.get('/albums/1/photos');
+    const photo = getRandomValueFromArray(photos);
+
+    return {
+      url: photo.url,
+      thumbnailUrl: photo.thumbnailUrl,
+    };
   }
 }

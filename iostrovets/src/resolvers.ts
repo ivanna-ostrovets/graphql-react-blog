@@ -44,6 +44,17 @@ export const resolvers: IResolvers = {
       return dataSources.blogApi.getCommentsByPost(postId);
     },
   },
+  Post: {
+    user: (post, args, { dataSources }) => {
+      return dataSources.blogApi.getUserById(post.userId);
+    },
+    comments: (post, args, { dataSources }) => {
+      return dataSources.blogApi.getCommentsByPost(post.id);
+    },
+    photo: (post, args, { dataSources }) => {
+      return dataSources.blogApi.getPhoto();
+    },
+  },
   EmailAddress: EmailAddressResolver,
   Date: DateScalar,
   URL: URLScalar,
