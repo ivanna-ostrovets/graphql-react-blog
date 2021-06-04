@@ -1,7 +1,7 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
-import { paginate } from './shared/utils/paginate';
+import { paginate } from '../../shared/utils/paginate';
 
-export class BlogAPI extends RESTDataSource {
+export class CommentsAPI extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = 'http://localhost:3000/';

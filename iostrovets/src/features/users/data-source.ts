@@ -6,6 +6,7 @@ export class UsersAPI extends RESTDataSource {
     super();
     this.baseURL = 'http://localhost:3000/';
   }
+
   async getUsers() {
     return this.get('users');
   }

@@ -36,7 +36,7 @@ export const postResolvers: IResolvers = {
       return dataSources.usersApi.getUserById(post.userId);
     },
     comments: (post, args, { dataSources }) => {
-      return dataSources.blogApi.getCommentsByPost(post.id);
+      return dataSources.commentsApi.getCommentsByPost(post.id);
     },
   },
 };
