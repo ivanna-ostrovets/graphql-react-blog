@@ -5,19 +5,6 @@ import { URLScalar } from './shared/custom-scalars/url';
 
 export const resolvers: IResolvers = {
   Query: {
-    posts: (_, args, { dataSources }) => {
-      return dataSources.blogApi.getPosts();
-    },
-    postsPaginated: (_, { pageNumber, pageSize }, { dataSources }) => {
-      return dataSources.blogApi.getPostsPaginated({ pageNumber, pageSize });
-    },
-    postById: (_, { id }, { dataSources }) => {
-      return dataSources.blogApi.getPostById(id);
-    },
-    postsByUser: (_, { userId }, { dataSources }) => {
-      return dataSources.blogApi.getPostsByUser(userId);
-    },
-
     users: (_, args, { dataSources }) => {
       return dataSources.blogApi.getUsers();
     },
@@ -45,20 +32,6 @@ export const resolvers: IResolvers = {
     },
   },
   Mutation: {
-    createPost: (_, { body }, { dataSources }) => {
-      return dataSources.blogApi.createPost(body);
-    },
-    updatePost: (_, { postId, body }, { dataSources }) => {
-      return dataSources.blogApi.updatePost(postId, body);
-    },
-    patchPost: (_, { postId, body }, { dataSources }) => {
-      return dataSources.blogApi.patchPost(postId, body);
-    },
-    deletePost: async (_, { postId }, { dataSources }) => {
-      await dataSources.blogApi.deletePost(postId);
-
-      return;
-    },
     createUser: (_, { body }, { dataSources }) => {
       return dataSources.blogApi.createUser(body);
     },
@@ -88,20 +61,12 @@ export const resolvers: IResolvers = {
       return;
     },
   },
-  Post: {
-    user: (post, args, { dataSources }) => {
-      return dataSources.blogApi.getUserById(post.userId);
-    },
-    comments: (post, args, { dataSources }) => {
-      return dataSources.blogApi.getCommentsByPost(post.id);
-    },
-  },
   Comment: {
     user: (comment, args, { dataSources }) => {
       return dataSources.blogApi.getUserById(comment.userId);
     },
     post: (comment, args, { dataSources }) => {
-      return dataSources.blogApi.getPostById(comment.postId);
+      return dataSources.postsApi.getPostById(comment.postId);
     },
   },
   EmailAddress: EmailAddressResolver,

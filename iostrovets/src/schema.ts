@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server';
 
-export const typeDefs = gql`
+export const queryTypeDefs = gql`
   scalar EmailAddress
   scalar Date
   scalar URL
@@ -13,27 +13,12 @@ export const typeDefs = gql`
     OTHER
   }
 
-  type Photo {
-    url: URL!
-    thumbnailUrl: URL
-  }
-
   type User {
     id: ID!
     name: String!
     email: EmailAddress!
     gender: Gender!
     username: String
-  }
-
-  type Post {
-    id: ID!
-    title: String!
-    body: String!
-    user: User!
-    dateCreated: Date!
-    photo: Photo
-    comments: [Comment!]!
   }
 
   type Comment {
@@ -43,11 +28,6 @@ export const typeDefs = gql`
     post: Post!
     user: User!
     dateCreated: String! @FormatDate
-  }
-
-  type PostsPaginated {
-    data: [Post!]!
-    info: PaginationInfo
   }
 
   type UsersPaginated {
@@ -65,20 +45,6 @@ export const typeDefs = gql`
     currentPage: Int!
     total: Int!
     pagesLeft: Int!
-  }
-
-  input PostInput {
-    title: String!
-    body: String!
-    userId: ID!
-    dateCreated: Date!
-  }
-
-  input PatchPostInput {
-    title: String
-    body: String
-    userId: ID
-    dateCreated: Date
   }
 
   input UserInput {
@@ -112,11 +78,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    posts: [Post!]!
-    postsPaginated(pageNumber: Int, pageSize: Int): PostsPaginated
-    postById(id: ID!): Post
-    postsByUser(userId: ID!): [Post!]!
-
     users: [User!]!
     usersPaginated(pageNumber: Int, pageSize: Int): UsersPaginated
     userById(id: ID!): User
@@ -129,10 +90,6 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createPost(body: PostInput!): Post
-    updatePost(postId: ID!, body: PostInput!): Post
-    patchPost(postId: ID!, body: PatchPostInput): Post
-    deletePost(postId: ID!): Boolean
     createUser(body: UserInput!): User
     updateUser(userId: ID!, body: UserInput!): User
     patchUser(userId: ID!, body: PatchUserInput): User
