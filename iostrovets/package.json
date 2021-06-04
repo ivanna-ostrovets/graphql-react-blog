@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "scr/index.ts",
   "scripts": {
-    "start": "nodemon --exec 'ts-node ./src/index.ts'",
+    "start": "nodemon --watch src --exec ts-node ./src/index.ts",
     "json-server:start": "json-server --watch json-server/db.json --static json-server/public"
   },
   "license": "MIT",
