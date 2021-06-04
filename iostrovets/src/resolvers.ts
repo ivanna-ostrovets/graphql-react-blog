@@ -95,8 +95,13 @@ export const resolvers: IResolvers = {
     comments: (post, args, { dataSources }) => {
       return dataSources.blogApi.getCommentsByPost(post.id);
     },
-    photo: (post, args, { dataSources }) => {
-      return dataSources.blogApi.getPhoto();
+  },
+  Comment: {
+    user: (comment, args, { dataSources }) => {
+      return dataSources.blogApi.getUserById(comment.userId);
+    },
+    post: (comment, args, { dataSources }) => {
+      return dataSources.blogApi.getPostById(comment.postId);
     },
   },
   EmailAddress: EmailAddressResolver,

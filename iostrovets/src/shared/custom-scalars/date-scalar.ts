@@ -5,8 +5,10 @@ export const DateScalar = new GraphQLScalarType({
 
   description: 'Date custom scalar type',
 
-  serialize(value: Date) {
-    return `${value.toLocaleDateString()}, ${value.toLocaleTimeString()}`;
+  serialize(value: number | string | Date) {
+    const date = new Date(value);
+
+    return `${date.toLocaleDateString()}, ${date.toLocaleTimeString()}`;
   },
 
   parseValue(value: number | string | Date) {

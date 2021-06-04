@@ -1,23 +1,14 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 import { paginate } from './shared/utils/paginate';
 
-const GENDERS = ['FEMALE', 'MALE', 'OTHER'];
-
-function getRandomValueFromArray(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
-
 export class BlogAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = 'https://jsonplaceholder.typicode.com/';
+    this.baseURL = 'http://localhost:3000/';
   }
 
   async getPosts() {
-    return (await this.get('posts')).map(async (post) => ({
-      ...post,
-      dateCreated: new Date(),
-    }));
+    return this.get('posts');
   }
 
   async getPostsPaginated({ pageNumber, pageSize }) {
@@ -49,12 +40,7 @@ export class BlogAPI extends RESTDataSource {
   }
 
   async getUsers() {
-    const users = await this.get('users');
-
-    return users.map((user) => ({
-      ...user,
-      gender: getRandomValueFromArray(GENDERS),
-    }));
+    return this.get('users');
   }
 
   async getUsersPaginated({ pageNumber, pageSize }) {
@@ -62,10 +48,7 @@ export class BlogAPI extends RESTDataSource {
   }
 
   async getUserById(id: string | number) {
-    return {
-      ...(await this.get(`users/${id}`)),
-      gender: getRandomValueFromArray(GENDERS),
-    };
+    return this.get(`users/${id}`);
   }
 
   async createUser(body) {
@@ -85,10 +68,7 @@ export class BlogAPI extends RESTDataSource {
   }
 
   async getComments() {
-    return (await this.get('comments')).map((comment) => ({
-      ...comment,
-      dateCreated: new Date(),
-    }));
+    return this.get('comments');
   }
 
   async getCommentsPaginated({ pageNumber, pageSize }) {
@@ -96,24 +76,15 @@ export class BlogAPI extends RESTDataSource {
   }
 
   async getCommentById(id: string | number) {
-    return {
-      ...(await this.get(`comments/${id}`)),
-      dateCreated: new Date(),
-    };
+    return this.get(`comments/${id}`);
   }
 
   async getCommentsByUser(userId: string | number) {
-    return (await this.get(`comments/?userId=${userId}`)).map((comment) => ({
-      ...comment,
-      dateCreated: new Date(),
-    }));
+    return this.get(`comments/?userId=${userId}`);
   }
 
   async getCommentsByPost(postId: string | number) {
-    return (await this.get(`comments/?postId=${postId}`)).map((comment) => ({
-      ...comment,
-      dateCreated: new Date(),
-    }));
+    return this.get(`comments/?postId=${postId}`);
   }
 
   async createComment(body) {
@@ -130,15 +101,5 @@ export class BlogAPI extends RESTDataSource {
 
   async deleteComment(commentId: string) {
     return this.delete(`comments/${commentId}`);
-  }
-
-  async getPhoto() {
-    const photos = await this.get('/albums/1/photos');
-    const photo = getRandomValueFromArray(photos);
-
-    return {
-      url: photo.url,
-      thumbnailUrl: photo.thumbnailUrl,
-    };
   }
 }

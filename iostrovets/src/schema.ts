@@ -41,7 +41,7 @@ export const typeDefs = gql`
     name: String!
     body: String!
     post: Post!
-    email: EmailAddress!
+    user: User!
     dateCreated: String! @FormatDate
   }
 
@@ -71,23 +71,27 @@ export const typeDefs = gql`
     title: String!
     body: String!
     userId: ID!
+    dateCreated: Date!
   }
 
   input PatchPostInput {
     title: String
     body: String
     userId: ID
+    dateCreated: Date
   }
 
   input UserInput {
     name: String!
     email: EmailAddress!
+    gender: Gender!
     username: String
   }
 
   input PatchUserInput {
     name: String
     email: EmailAddress
+    gender: Gender
     username: String
   }
 
@@ -95,14 +99,16 @@ export const typeDefs = gql`
     name: String!
     body: String!
     postId: ID!
-    email: EmailAddress!
+    userId: ID!
+    dateCreated: Date!
   }
 
   input PatchCommentInput {
     name: String
     body: String
     postId: ID
-    email: EmailAddress
+    userId: ID
+    dateCreated: Date
   }
 
   type Query {
