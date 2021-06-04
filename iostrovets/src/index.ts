@@ -1,4 +1,5 @@
-import { ApolloServer, ServerInfo } from 'apollo-server';
+import { ApolloServer, makeExecutableSchema, ServerInfo } from 'apollo-server';
+import { applyMiddleware } from 'graphql-middleware';
 import {
   commentResolvers,
   CommentsAPI,
@@ -9,10 +10,15 @@ import { userResolvers, UsersAPI, userTypeDefs } from './features/users';
 import { resolvers } from './resolvers';
 import { queryTypeDefs } from './schema';
 import { FormatDateDirective } from './shared/directives/format-date';
+import { logger } from './shared/middlewares/logger';
 
-const server = new ApolloServer({
+const schema = makeExecutableSchema({
   typeDefs: [queryTypeDefs, postTypeDefs, userTypeDefs, commentTypeDefs],
   resolvers: [resolvers, postResolvers, userResolvers, commentResolvers],
+});
+
+const server = new ApolloServer({
+  schema: applyMiddleware(schema, logger),
   dataSources: () => ({
     postsApi: new PostsAPI(),
     usersApi: new UsersAPI(),
