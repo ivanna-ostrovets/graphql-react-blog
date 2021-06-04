@@ -59,6 +59,20 @@ export const resolvers: IResolvers = {
 
       return;
     },
+    createUser: (_, { body }, { dataSources }) => {
+      return dataSources.blogApi.createUser(body);
+    },
+    updateUser: (_, { userId, body }, { dataSources }) => {
+      return dataSources.blogApi.updateUser(userId, body);
+    },
+    patchUser: (_, { userId, body }, { dataSources }) => {
+      return dataSources.blogApi.patchUser(userId, body);
+    },
+    deleteUser: async (_, { userId }, { dataSources }) => {
+      await dataSources.blogApi.deleteUser(userId);
+
+      return;
+    },
   },
   Post: {
     user: (post, args, { dataSources }) => {

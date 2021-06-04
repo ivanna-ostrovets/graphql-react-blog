@@ -68,6 +68,22 @@ export class BlogAPI extends RESTDataSource {
     };
   }
 
+  async createUser(body) {
+    return this.post('users', body);
+  }
+
+  async updateUser(userId: string, body) {
+    return this.put(`users/${userId}`, body);
+  }
+
+  async patchUser(userId: string, body) {
+    return this.patch(`users/${userId}`, body);
+  }
+
+  async deleteUser(userId: string) {
+    return this.delete(`users/${userId}`);
+  }
+
   async getComments() {
     return (await this.get('comments')).map((comment) => ({
       ...comment,
