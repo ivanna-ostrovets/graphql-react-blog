@@ -44,6 +44,22 @@ export const resolvers: IResolvers = {
       return dataSources.blogApi.getCommentsByPost(postId);
     },
   },
+  Mutation: {
+    createPost: (_, { body }, { dataSources }) => {
+      return dataSources.blogApi.createPost(body);
+    },
+    updatePost: (_, { postId, body }, { dataSources }) => {
+      return dataSources.blogApi.updatePost(postId, body);
+    },
+    patchPost: (_, { postId, body }, { dataSources }) => {
+      return dataSources.blogApi.patchPost(postId, body);
+    },
+    deletePost: async (_, { postId }, { dataSources }) => {
+      await dataSources.blogApi.deletePost(postId);
+
+      return;
+    },
+  },
   Post: {
     user: (post, args, { dataSources }) => {
       return dataSources.blogApi.getUserById(post.userId);

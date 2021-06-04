@@ -67,6 +67,18 @@ export const typeDefs = gql`
     pagesLeft: Int!
   }
 
+  input PostInput {
+    title: String!
+    body: String!
+    userId: ID!
+  }
+
+  input PatchPostInput {
+    title: String
+    body: String
+    userId: ID
+  }
+
   type Query {
     posts: [Post!]!
     postsPaginated(pageNumber: Int, pageSize: Int): PostsPaginated
@@ -82,5 +94,12 @@ export const typeDefs = gql`
     commentById(id: ID!): Comment
     commentsByUser(userId: ID!): [Comment!]!
     commentsByPost(postId: ID!): [Comment!]!
+  }
+
+  type Mutation {
+    createPost(body: PostInput!): Post
+    updatePost(postId: ID!, body: PostInput!): Post
+    patchPost(postId: ID!, body: PatchPostInput): Post
+    deletePost(postId: ID!): Boolean
   }
 `;

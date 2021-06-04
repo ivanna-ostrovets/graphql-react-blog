@@ -32,6 +32,22 @@ export class BlogAPI extends RESTDataSource {
     return this.get(`posts?userId=${userId}`);
   }
 
+  async createPost(body) {
+    return this.post('posts', body);
+  }
+
+  async updatePost(postId: string, body) {
+    return this.put(`posts/${postId}`, body);
+  }
+
+  async patchPost(postId: string, body) {
+    return this.patch(`posts/${postId}`, body);
+  }
+
+  async deletePost(postId: string) {
+    return this.delete(`posts/${postId}`);
+  }
+
   async getUsers() {
     const users = await this.get('users');
 
