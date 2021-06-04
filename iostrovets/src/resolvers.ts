@@ -5,16 +5,6 @@ import { URLScalar } from './shared/custom-scalars/url';
 
 export const resolvers: IResolvers = {
   Query: {
-    users: (_, args, { dataSources }) => {
-      return dataSources.blogApi.getUsers();
-    },
-    usersPaginated: (_, { pageNumber, pageSize }, { dataSources }) => {
-      return dataSources.blogApi.getUsersPaginated({ pageNumber, pageSize });
-    },
-    userById: (_, { id }, { dataSources }) => {
-      return dataSources.blogApi.getUserById(id);
-    },
-
     comments: (_, args, { dataSources }) => {
       return dataSources.blogApi.getComments();
     },
@@ -32,20 +22,6 @@ export const resolvers: IResolvers = {
     },
   },
   Mutation: {
-    createUser: (_, { body }, { dataSources }) => {
-      return dataSources.blogApi.createUser(body);
-    },
-    updateUser: (_, { userId, body }, { dataSources }) => {
-      return dataSources.blogApi.updateUser(userId, body);
-    },
-    patchUser: (_, { userId, body }, { dataSources }) => {
-      return dataSources.blogApi.patchUser(userId, body);
-    },
-    deleteUser: async (_, { userId }, { dataSources }) => {
-      await dataSources.blogApi.deleteUser(userId);
-
-      return;
-    },
     createComment: (_, { body }, { dataSources }) => {
       return dataSources.blogApi.createComment(body);
     },
@@ -63,7 +39,7 @@ export const resolvers: IResolvers = {
   },
   Comment: {
     user: (comment, args, { dataSources }) => {
-      return dataSources.blogApi.getUserById(comment.userId);
+      return dataSources.usersApi.getUserById(comment.userId);
     },
     post: (comment, args, { dataSources }) => {
       return dataSources.postsApi.getPostById(comment.postId);

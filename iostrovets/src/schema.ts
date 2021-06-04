@@ -7,20 +7,6 @@ export const queryTypeDefs = gql`
 
   directive @FormatDate on FIELD_DEFINITION
 
-  enum Gender {
-    FEMALE
-    MALE
-    OTHER
-  }
-
-  type User {
-    id: ID!
-    name: String!
-    email: EmailAddress!
-    gender: Gender!
-    username: String
-  }
-
   type Comment {
     id: ID!
     name: String!
@@ -28,11 +14,6 @@ export const queryTypeDefs = gql`
     post: Post!
     user: User!
     dateCreated: String! @FormatDate
-  }
-
-  type UsersPaginated {
-    data: [User!]!
-    info: PaginationInfo
   }
 
   type CommentsPaginated {
@@ -45,20 +26,6 @@ export const queryTypeDefs = gql`
     currentPage: Int!
     total: Int!
     pagesLeft: Int!
-  }
-
-  input UserInput {
-    name: String!
-    email: EmailAddress!
-    gender: Gender!
-    username: String
-  }
-
-  input PatchUserInput {
-    name: String
-    email: EmailAddress
-    gender: Gender
-    username: String
   }
 
   input CommentInput {
@@ -78,10 +45,6 @@ export const queryTypeDefs = gql`
   }
 
   type Query {
-    users: [User!]!
-    usersPaginated(pageNumber: Int, pageSize: Int): UsersPaginated
-    userById(id: ID!): User
-
     comments: [Comment!]!
     commentsPaginated(pageNumber: Int, pageSize: Int): CommentsPaginated
     commentById(id: ID!): Comment
@@ -90,10 +53,6 @@ export const queryTypeDefs = gql`
   }
 
   type Mutation {
-    createUser(body: UserInput!): User
-    updateUser(userId: ID!, body: UserInput!): User
-    patchUser(userId: ID!, body: PatchUserInput): User
-    deleteUser(userId: ID!): Boolean
     createComment(body: CommentInput!): Comment
     updateComment(commentId: ID!, body: CommentInput!): Comment
     patchComment(commentId: ID!, body: PatchCommentInput): Comment
