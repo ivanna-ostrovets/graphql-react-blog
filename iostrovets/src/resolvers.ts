@@ -5,42 +5,42 @@ import { URLScalar } from './custom-scalars/url';
 
 export const resolvers: IResolvers = {
   Query: {
-    posts: (parent, args, { dataSources }) => {
+    posts: (_, args, { dataSources }) => {
       return dataSources.blogApi.getPosts();
     },
-    postsPaginated: (parent, { pageNumber, pageSize }, { dataSources }) => {
+    postsPaginated: (_, { pageNumber, pageSize }, { dataSources }) => {
       return dataSources.blogApi.getPostsPaginated({ pageNumber, pageSize });
     },
-    postById: (parent, { id }, { dataSources }) => {
+    postById: (_, { id }, { dataSources }) => {
       return dataSources.blogApi.getPostById(id);
     },
-    postsByUser: (parent, { userId }, { dataSources }) => {
+    postsByUser: (_, { userId }, { dataSources }) => {
       return dataSources.blogApi.getPostsByUser(userId);
     },
 
-    users: (parent, args, { dataSources }) => {
+    users: (_, args, { dataSources }) => {
       return dataSources.blogApi.getUsers();
     },
-    usersPaginated: (parent, { pageNumber, pageSize }, { dataSources }) => {
+    usersPaginated: (_, { pageNumber, pageSize }, { dataSources }) => {
       return dataSources.blogApi.getUsersPaginated({ pageNumber, pageSize });
     },
-    userById: (parent, { id }, { dataSources }) => {
+    userById: (_, { id }, { dataSources }) => {
       return dataSources.blogApi.getUserById(id);
     },
 
-    comments: (parent, args, { dataSources }) => {
+    comments: (_, args, { dataSources }) => {
       return dataSources.blogApi.getComments();
     },
-    commentsPaginated: (parent, { pageNumber, pageSize }, { dataSources }) => {
+    commentsPaginated: (_, { pageNumber, pageSize }, { dataSources }) => {
       return dataSources.blogApi.getCommentsPaginated({ pageNumber, pageSize });
     },
-    commentById: (parent, { id }, { dataSources }) => {
+    commentById: (_, { id }, { dataSources }) => {
       return dataSources.blogApi.getCommentById(id);
     },
-    commentsByUser: (parent, { userId }, { dataSources }) => {
+    commentsByUser: (_, { userId }, { dataSources }) => {
       return dataSources.blogApi.getCommentsByUser(userId);
     },
-    commentsByPost: (parent, { postId }, { dataSources }) => {
+    commentsByPost: (_, { postId }, { dataSources }) => {
       return dataSources.blogApi.getCommentsByPost(postId);
     },
   },
