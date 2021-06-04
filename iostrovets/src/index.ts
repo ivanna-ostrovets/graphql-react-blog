@@ -1,8 +1,8 @@
 import { ApolloServer, ServerInfo } from 'apollo-server';
 import { BlogAPI } from './blog-api-data-source';
-import { FormatDateDirective } from './directives/format-date';
 import { resolvers } from './resolvers';
 import { typeDefs } from './schema';
+import { FormatDateDirective } from './shared/directives/format-date';
 
 const server = new ApolloServer({
   typeDefs,

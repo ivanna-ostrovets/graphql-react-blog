@@ -1,5 +1,5 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
-import { paginate } from './utils/paginate';
+import { paginate } from './shared/utils/paginate';
 
 const GENDERS = ['FEMALE', 'MALE', 'OTHER'];
 
