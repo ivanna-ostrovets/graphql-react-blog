@@ -91,6 +91,20 @@ export const typeDefs = gql`
     username: String
   }
 
+  input CommentInput {
+    name: String!
+    body: String!
+    postId: ID!
+    email: EmailAddress!
+  }
+
+  input PatchCommentInput {
+    name: String
+    body: String
+    postId: ID
+    email: EmailAddress
+  }
+
   type Query {
     posts: [Post!]!
     postsPaginated(pageNumber: Int, pageSize: Int): PostsPaginated
@@ -117,5 +131,9 @@ export const typeDefs = gql`
     updateUser(userId: ID!, body: UserInput!): User
     patchUser(userId: ID!, body: PatchUserInput): User
     deleteUser(userId: ID!): Boolean
+    createComment(body: CommentInput!): Comment
+    updateComment(commentId: ID!, body: CommentInput!): Comment
+    patchComment(commentId: ID!, body: PatchCommentInput): Comment
+    deleteComment(commentId: ID!): Boolean
   }
 `;

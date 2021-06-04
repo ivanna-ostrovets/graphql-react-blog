@@ -116,6 +116,22 @@ export class BlogAPI extends RESTDataSource {
     }));
   }
 
+  async createComment(body) {
+    return this.post('comments', body);
+  }
+
+  async updateComment(commentId: string, body) {
+    return this.put(`comments/${commentId}`, body);
+  }
+
+  async patchComment(commentId: string, body) {
+    return this.patch(`comments/${commentId}`, body);
+  }
+
+  async deleteComment(commentId: string) {
+    return this.delete(`comments/${commentId}`);
+  }
+
   async getPhoto() {
     const photos = await this.get('/albums/1/photos');
     const photo = getRandomValueFromArray(photos);

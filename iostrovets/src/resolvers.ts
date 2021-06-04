@@ -73,6 +73,20 @@ export const resolvers: IResolvers = {
 
       return;
     },
+    createComment: (_, { body }, { dataSources }) => {
+      return dataSources.blogApi.createComment(body);
+    },
+    updateComment: (_, { commentId, body }, { dataSources }) => {
+      return dataSources.blogApi.updateComment(commentId, body);
+    },
+    patchComment: (_, { commentId, body }, { dataSources }) => {
+      return dataSources.blogApi.patchComment(commentId, body);
+    },
+    deleteComment: async (_, { commentId }, { dataSources }) => {
+      await dataSources.blogApi.deleteComment(commentId);
+
+      return;
+    },
   },
   Post: {
     user: (post, args, { dataSources }) => {
