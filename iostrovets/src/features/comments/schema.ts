@@ -45,4 +45,11 @@ export const commentTypeDefs = gql`
     patchComment(commentId: ID!, body: PatchCommentInput): Comment
     deleteComment(commentId: ID!): Boolean
   }
+
+  extend type Subscription {
+    commentCreated: Comment
+    commentUpdated: Comment
+    commentPatched: Comment
+    commentDeleted: ID
+  }
 `;
