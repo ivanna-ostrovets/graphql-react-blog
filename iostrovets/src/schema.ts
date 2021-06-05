@@ -21,4 +21,8 @@ export const queryTypeDefs = gql`
   type Mutation {
     _empty: Boolean
   }
+
+  type Subscription {
+    _empty: Boolean
+  }
 `;

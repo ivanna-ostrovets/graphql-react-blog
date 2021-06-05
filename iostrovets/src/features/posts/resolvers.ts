@@ -1,4 +1,12 @@
 import { IResolvers } from 'apollo-server';
+import { pubsub } from '../../shared/utils/pubsub';
+
+const events = {
+  postCreated: 'POST_CREATED',
+  postUpdated: 'POST_UPDATED',
+  postPatched: 'POST_PATCHED',
+  postDeleted: 'POST_DELETED',
+};
 
 export const postResolvers: IResolvers = {
   Query: {
@@ -15,28 +23,55 @@ export const postResolvers: IResolvers = {
       return dataSources.postsApi.getPostsByUser(userId);
     },
   },
-  Mutation: {
-    createPost: (_, { body }, { dataSources }) => {
-      return dataSources.postsApi.createPost(body);
-    },
-    updatePost: (_, { postId, body }, { dataSources }) => {
-      return dataSources.postsApi.updatePost(postId, body);
-    },
-    patchPost: (_, { postId, body }, { dataSources }) => {
-      return dataSources.postsApi.patchPost(postId, body);
-    },
-    deletePost: async (_, { postId }, { dataSources }) => {
-      await dataSources.postsApi.deletePost(postId);
-
-      return;
-    },
-  },
   Post: {
     user: (post, args, { dataSources }) => {
       return dataSources.usersApi.getUserById(post.userId);
     },
     comments: (post, args, { dataSources }) => {
       return dataSources.commentsApi.getCommentsByPost(post.id);
+    },
+  },
+  Mutation: {
+    createPost: async (_, { body }, { dataSources }) => {
+      const post = await dataSources.postsApi.createPost(body);
+
+      await pubsub.publish(events.postCreated, { postCreated: post });
+
+      return post;
+    },
+    updatePost: async (_, { postId, body }, { dataSources }) => {
+      const post = dataSources.postsApi.updatePost(postId, body);
+
+      await pubsub.publish(events.postUpdated, { postUpdated: post });
+
+      return post;
+    },
+    patchPost: async (_, { postId, body }, { dataSources }) => {
+      const post = dataSources.postsApi.patchPost(postId, body);
+
+      await pubsub.publish(events.postPatched, { postPatched: post });
+
+      return post;
+    },
+    deletePost: async (_, { postId }, { dataSources }) => {
+      await dataSources.postsApi.deletePost(postId);
+      await pubsub.publish(events.postDeleted, { postDeleted: postId });
+
+      return;
+    },
+  },
+  Subscription: {
+    postCreated: {
+      subscribe: () => pubsub.asyncIterator([events.postCreated]),
+    },
+    postUpdated: {
+      subscribe: () => pubsub.asyncIterator([events.postUpdated]),
+    },
+    postPatched: {
+      subscribe: () => pubsub.asyncIterator([events.postPatched]),
+    },
+    postDeleted: {
+      subscribe: () => pubsub.asyncIterator([events.postDeleted]),
     },
   },
 };

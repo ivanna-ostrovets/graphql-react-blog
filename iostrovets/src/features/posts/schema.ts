@@ -48,4 +48,11 @@ export const postTypeDefs = gql`
     patchPost(postId: ID!, body: PatchPostInput): Post
     deletePost(postId: ID!): Boolean
   }
+
+  extend type Subscription {
+    postCreated: Post
+    postUpdated: Post
+    postPatched: Post
+    postDeleted: ID
+  }
 `;
