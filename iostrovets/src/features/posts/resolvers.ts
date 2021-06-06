@@ -33,17 +33,17 @@ export const postResolvers: IResolvers = {
     },
   },
   Mutation: {
-    createPost: async (_, { body }, { dataSources }) => {
-      let post = await dataSources.postsApi.createPost({ body, photo: null });
+    createPost: async (_, { body: { image, ...body } }, { dataSources }) => {
+      let post = await dataSources.postsApi.createPost(body);
 
-      if (body.photo) {
-        const photoUrls = await dataSources.postsApi.uploadPostImage(
+      if (image) {
+        const imageUrls = await dataSources.postsApi.uploadPostImage(
           post.id,
-          await readFileToBuffer(body.photo),
+          await readFileToBuffer(image),
         );
 
         post = await dataSources.postsApi.patchPost(post.id, {
-          photo: photoUrls,
+          image: imageUrls,
         });
       }
 
@@ -52,18 +52,18 @@ export const postResolvers: IResolvers = {
       return post;
     },
     updatePost: async (_, { postId, body }, { dataSources }) => {
-      let photoUrls;
+      let imageUrls;
 
-      if (body.photo) {
-        photoUrls = await dataSources.postsApi.uploadPostImage(
+      if (body.image) {
+        imageUrls = await dataSources.postsApi.uploadPostImage(
           postId,
-          await readFileToBuffer(body.photo),
+          await readFileToBuffer(body.image),
         );
       }
 
       const post = dataSources.postsApi.updatePost(postId, {
         ...body,
-        photo: photoUrls,
+        image: imageUrls,
       });
 
       await pubsub.publish(events.postUpdated, { postUpdated: post });
@@ -71,18 +71,18 @@ export const postResolvers: IResolvers = {
       return post;
     },
     patchPost: async (_, { postId, body }, { dataSources }) => {
-      let photoUrls;
+      let imageUrls;
 
-      if (body.photo) {
-        photoUrls = await dataSources.postsApi.uploadPostImage(
+      if (body.image) {
+        imageUrls = await dataSources.postsApi.uploadPostImage(
           postId,
-          await readFileToBuffer(body.photo),
+          await readFileToBuffer(body.image),
         );
       }
 
       const post = dataSources.postsApi.patchPost(postId, {
         ...body,
-        photo: photoUrls,
+        image: imageUrls,
       });
 
       await pubsub.publish(events.postPatched, { postPatched: post });

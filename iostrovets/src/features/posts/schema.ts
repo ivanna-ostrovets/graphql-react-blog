@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server';
 
 export const postTypeDefs = gql`
-  type Photo {
+  type Image {
     url: URL!
     thumbnailUrl: URL
   }
@@ -12,7 +12,7 @@ export const postTypeDefs = gql`
     body: String!
     user: User!
     dateCreated: Date!
-    photo: Photo
+    image: Image
     comments: [Comment!]!
   }
 
@@ -26,7 +26,7 @@ export const postTypeDefs = gql`
     body: String!
     userId: ID!
     dateCreated: Date!
-    photo: Upload
+    image: Upload
   }
 
   input PatchPostInput {
@@ -34,7 +34,7 @@ export const postTypeDefs = gql`
     body: String
     userId: ID
     dateCreated: Date
-    photo: Upload
+    image: Upload
   }
 
   extend type Query {

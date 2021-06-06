@@ -13,21 +13,21 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.post('/post-image/:postId', async (req, res) => {
-  const photoName = `photo-${req.params.postId}.png`;
-  const photoPath = `json-server/public/photos/${photoName}`;
+  const imageName = `image-${req.params.postId}.png`;
+  const imagePath = `json-server/public/images/${imageName}`;
 
   const thumbnailName = `thumbnail-${req.params.postId}.png`;
   const thumbnailPath = `json-server/public/thumbnails/${thumbnailName}`;
 
-  await fs.writeFile(photoPath, Buffer.from(req.body));
+  await fs.writeFile(imagePath, Buffer.from(req.body));
 
-  const thumbnail = await sharp(photoPath).resize(150, 150);
+  const thumbnail = await sharp(imagePath).resize(150, 150);
   await thumbnail.toFile(thumbnailPath);
 
   const url = `${req.protocol}://${req.get('host')}`;
 
   res.send({
-    url: `${url}/static/photos/${photoName}`,
+    url: `${url}/static/images/${imageName}`,
     thumbnailUrl: `${url}/static/thumbnails/${thumbnailName}`,
   });
 });
