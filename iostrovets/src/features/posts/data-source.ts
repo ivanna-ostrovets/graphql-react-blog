@@ -27,6 +27,10 @@ export class PostsAPI extends RESTDataSource {
     return this.post('posts', body);
   }
 
+  async uploadPostImage(postId, file) {
+    return this.post(`post-image/${postId}`, file);
+  }
+
   async updatePost(postId: string, body) {
     return this.put(`posts/${postId}`, body);
   }

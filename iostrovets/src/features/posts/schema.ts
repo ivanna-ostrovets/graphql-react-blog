@@ -26,6 +26,7 @@ export const postTypeDefs = gql`
     body: String!
     userId: ID!
     dateCreated: Date!
+    photo: Upload
   }
 
   input PatchPostInput {
@@ -33,6 +34,7 @@ export const postTypeDefs = gql`
     body: String
     userId: ID
     dateCreated: Date
+    photo: Upload
   }
 
   extend type Query {

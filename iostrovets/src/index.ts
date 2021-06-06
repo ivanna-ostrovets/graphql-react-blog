@@ -1,5 +1,7 @@
-import { ApolloServer, makeExecutableSchema, ServerInfo } from 'apollo-server';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
+import express from 'express';
 import { applyMiddleware } from 'graphql-middleware';
+import { graphqlUploadExpress } from 'graphql-upload';
 import {
   commentResolvers,
   CommentsAPI,
@@ -12,23 +14,37 @@ import { queryTypeDefs } from './schema';
 import { FormatDateDirective } from './shared/directives/format-date';
 import { logger } from './shared/middlewares/logger';
 
-const schema = makeExecutableSchema({
-  typeDefs: [queryTypeDefs, postTypeDefs, userTypeDefs, commentTypeDefs],
-  resolvers: [resolvers, postResolvers, userResolvers, commentResolvers],
-});
+async function startApolloServer() {
+  const schema = makeExecutableSchema({
+    typeDefs: [queryTypeDefs, postTypeDefs, userTypeDefs, commentTypeDefs],
+    resolvers: [resolvers, postResolvers, userResolvers, commentResolvers],
+  });
 
-const server = new ApolloServer({
-  schema: applyMiddleware(schema, logger),
-  dataSources: () => ({
-    postsApi: new PostsAPI(),
-    usersApi: new UsersAPI(),
-    commentsApi: new CommentsAPI(),
-  }),
-  schemaDirectives: {
-    FormatDate: FormatDateDirective,
-  },
-});
+  const server = new ApolloServer({
+    schema: applyMiddleware(schema, logger),
+    dataSources: () => ({
+      postsApi: new PostsAPI(),
+      usersApi: new UsersAPI(),
+      commentsApi: new CommentsAPI(),
+    }),
+    schemaDirectives: {
+      FormatDate: FormatDateDirective,
+    },
+    introspection: true,
+    uploads: false,
+  });
 
-server.listen().then(({ url }: ServerInfo) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+  await server.start();
+
+  const app = express();
+
+  app.use(graphqlUploadExpress());
+  server.applyMiddleware({ app });
+
+  await new Promise((resolve) => app.listen({ port: 4000 }, resolve as any));
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+
+  return { server, app };
+}
+
+startApolloServer();

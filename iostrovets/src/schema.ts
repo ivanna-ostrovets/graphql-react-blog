@@ -4,6 +4,7 @@ export const queryTypeDefs = gql`
   scalar EmailAddress
   scalar Date
   scalar URL
+  scalar Upload
 
   directive @FormatDate on FIELD_DEFINITION
 
