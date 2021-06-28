@@ -46,6 +46,14 @@ server.get('/profile', async (req, res) => {
   }
 });
 
+server.get('/users', async (req, res) => {
+  const ids = req.params.ids;
+
+  if (!ids) return res.json(db.users);
+
+  return res.json(db.users.filter((user) => ids.includes(user.id)));
+});
+
 server.post('/post-image/:postId', async (req, res) => {
   const imageName = `image-${req.params.postId}.png`;
   const imagePath = `json-server/public/images/${imageName}`;

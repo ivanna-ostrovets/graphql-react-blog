@@ -26,7 +26,7 @@ export const postResolvers: IResolvers = {
   },
   Post: {
     user: (post, args, { dataSources }) => {
-      return dataSources.usersApi.getUserById(post.userId);
+      return dataSources.usersApi.loader.load(post.userId);
     },
     comments: (post, args, { dataSources }) => {
       return dataSources.commentsApi.getCommentsByPost(post.id);

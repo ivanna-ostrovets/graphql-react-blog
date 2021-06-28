@@ -1,10 +1,14 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
+import DataLoader from 'dataloader';
 import { paginate } from '../../shared/utils/paginate';
 
 export class UsersAPI extends RESTDataSource {
+  private loader: DataLoader<string | number, unknown>;
+
   constructor() {
     super();
     this.baseURL = process.env.API_URL;
+    this.loader = new DataLoader((ids) => this.getUserByIds(ids));
   }
 
   willSendRequest(request) {
@@ -21,6 +25,10 @@ export class UsersAPI extends RESTDataSource {
 
   async getUserById(id: string | number) {
     return this.get(`users/${id}`);
+  }
+
+  async getUserByIds(ids: readonly (string | number)[]) {
+    return this.get(`users?ids=${ids.join(',')}`);
   }
 
   async createUser(body) {
