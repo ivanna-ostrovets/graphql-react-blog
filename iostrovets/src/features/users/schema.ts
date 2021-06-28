@@ -10,6 +10,7 @@ export const userTypeDefs = gql`
   type User {
     id: ID!
     name: String!
+    password: String!
     email: EmailAddress!
     gender: Gender!
     username: String
@@ -23,6 +24,7 @@ export const userTypeDefs = gql`
   input UserInput {
     name: String!
     email: EmailAddress!
+    password: String!
     gender: Gender!
     username: String
   }
@@ -32,6 +34,7 @@ export const userTypeDefs = gql`
     email: EmailAddress
     gender: Gender
     username: String
+    password: String
   }
 
   extend type Query {

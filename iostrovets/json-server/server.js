@@ -3,14 +3,48 @@ const fs = require('fs').promises;
 const jsonServer = require('json-server');
 const path = require('path');
 const sharp = require('sharp');
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+
+const db = require('./db.json');
+const { verifyToken, generateAccessToken } = require('./auth');
 
 const server = jsonServer.create();
 const router = jsonServer.router('json-server/db.json');
 const middlewares = jsonServer.defaults();
 
+dotenv.config();
+
 server.use('/static', express.static(path.join(__dirname, 'public')));
 server.use(middlewares);
+server.use(verifyToken);
 server.use(jsonServer.bodyParser);
+
+server.post('/login', async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const user = db.users.find(
+    (user) => user.email === email && user.password === password,
+  );
+
+  if (!user) return res.sendStatus(401);
+
+  res.json(generateAccessToken(user.id));
+});
+
+server.get('/profile', async (req, res) => {
+  const token = req.headers.authorization;
+
+  try {
+    const userId = jwt.verify(token, process.env.JWT_SECRET);
+    const user = db.users.find(({ id }) => JSON.stringify(id) === userId);
+
+    res.json(user);
+  } catch (error) {
+    res.sendStatus(401);
+  }
+});
 
 server.post('/post-image/:postId', async (req, res) => {
   const imageName = `image-${req.params.postId}.png`;

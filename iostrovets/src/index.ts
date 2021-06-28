@@ -1,8 +1,16 @@
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
+import dotenv from 'dotenv';
 import express from 'express';
 import { applyMiddleware } from 'graphql-middleware';
 import { graphqlUploadExpress } from 'graphql-upload';
 import http from 'http';
+import {
+  AuthAPI,
+  authMiddleware,
+  authResolvers,
+  authTypeDefs,
+  getProfile,
+} from './features/auth';
 import {
   commentResolvers,
   CommentsAPI,
@@ -15,23 +23,48 @@ import { queryTypeDefs } from './schema';
 import { FormatDateDirective } from './shared/directives/format-date';
 import { logger } from './shared/middlewares/logger';
 
+dotenv.config();
+
 async function startApolloServer() {
   const schema = makeExecutableSchema({
-    typeDefs: [queryTypeDefs, postTypeDefs, userTypeDefs, commentTypeDefs],
-    resolvers: [resolvers, postResolvers, userResolvers, commentResolvers],
+    typeDefs: [
+      queryTypeDefs,
+      authTypeDefs,
+      postTypeDefs,
+      userTypeDefs,
+      commentTypeDefs,
+    ],
+    resolvers: [
+      resolvers,
+      authResolvers,
+      postResolvers,
+      userResolvers,
+      commentResolvers,
+    ],
   });
 
-  const server = new ApolloServer({
-    schema: applyMiddleware(schema, logger),
+  const server: ApolloServer = new ApolloServer({
+    schema: applyMiddleware(schema, logger, authMiddleware),
     dataSources: () => ({
       postsApi: new PostsAPI(),
       usersApi: new UsersAPI(),
       commentsApi: new CommentsAPI(),
+      authAPI: new AuthAPI(),
     }),
     schemaDirectives: {
       FormatDate: FormatDateDirective,
     },
-    introspection: true,
+    context: async ({ req, connection }) => {
+      const token = connection
+        ? connection.context.Authorization
+        : req.headers.authorization;
+      const user = await getProfile(token);
+
+      return {
+        token,
+        user,
+      };
+    },
     uploads: false,
   });
 
@@ -46,9 +79,11 @@ async function startApolloServer() {
   server.installSubscriptionHandlers(httpServer);
 
   await new Promise((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve as any),
+    httpServer.listen({ port: process.env.APP_PORT }, resolve as any),
   );
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  console.log(
+    `🚀 Server ready at http://localhost:${process.env.APP_PORT}${server.graphqlPath}`,
+  );
 
   return { server, app, httpServer };
 }

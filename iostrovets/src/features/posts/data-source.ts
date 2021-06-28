@@ -4,7 +4,11 @@ import { paginate } from '../../shared/utils/paginate';
 export class PostsAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = 'http://localhost:3000/';
+    this.baseURL = process.env.API_URL;
+  }
+
+  willSendRequest(request) {
+    request.headers.set('Authorization', this.context.token);
   }
 
   async getPosts() {
