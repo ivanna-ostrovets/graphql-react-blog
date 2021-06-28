@@ -6,6 +6,7 @@
       "username": "Bret",
       "email": "Sincere@april.biz",
       "gender": "FEMALE",
+      "role": "ADMIN",
       "password": "password"
     },
     {
@@ -14,6 +15,7 @@
       "username": "Antonette",
       "email": "Shanna@melissa.tv",
       "gender": "MALE",
+      "role": "USER",
       "password": "password"
     },
     {
@@ -22,6 +24,7 @@
       "username": "Samantha",
       "email": "Nathan@yesenia.net",
       "gender": "OTHER",
+      "role": "USER",
       "password": "password"
     }
   ],

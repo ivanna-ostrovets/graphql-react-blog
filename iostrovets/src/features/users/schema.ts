@@ -7,12 +7,18 @@ export const userTypeDefs = gql`
     OTHER
   }
 
+  enum Role {
+    ADMIN
+    USER
+  }
+
   type User {
     id: ID!
     name: String!
     password: String!
     email: EmailAddress!
     gender: Gender!
+    role: Role!
     username: String
   }
 
@@ -26,6 +32,7 @@ export const userTypeDefs = gql`
     email: EmailAddress!
     password: String!
     gender: Gender!
+    role: Role!
     username: String
   }
 

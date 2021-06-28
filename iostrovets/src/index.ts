@@ -10,6 +10,7 @@ import {
   authResolvers,
   authTypeDefs,
   getProfile,
+  permissions,
 } from './features/auth';
 import {
   commentResolvers,
@@ -44,7 +45,7 @@ async function startApolloServer() {
   });
 
   const server: ApolloServer = new ApolloServer({
-    schema: applyMiddleware(schema, logger, authMiddleware),
+    schema: applyMiddleware(schema, logger, authMiddleware, permissions),
     dataSources: () => ({
       postsApi: new PostsAPI(),
       usersApi: new UsersAPI(),
