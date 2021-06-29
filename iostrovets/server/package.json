@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "scr/index.ts",
   "scripts": {
-    "start": "nodemon --watch src --exec ts-node ./src/index.ts",
+    "graphql:start": "nodemon --watch src --exec ts-node ./src/index.ts",
     "json-server:start": "nodemon json-server/server.js"
   },
   "license": "MIT",
