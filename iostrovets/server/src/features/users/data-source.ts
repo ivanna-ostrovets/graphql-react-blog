@@ -28,7 +28,7 @@ export class UsersAPI extends RESTDataSource {
   }
 
   async getUserByIds(ids: readonly (string | number)[]) {
-    return this.get(`users?ids=${ids.join(',')}`);
+    return this.get(`users?ids=[${ids.join(',')}]`);
   }
 
   async createUser(body) {

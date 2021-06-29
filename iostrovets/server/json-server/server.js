@@ -47,7 +47,7 @@ server.get('/profile', async (req, res) => {
 });
 
 server.get('/users', async (req, res) => {
-  const ids = req.params.ids;
+  const ids = req.query.ids;
 
   if (!ids) return res.json(db.users);
 
