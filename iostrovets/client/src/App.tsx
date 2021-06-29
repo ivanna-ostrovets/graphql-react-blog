@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
 import PrivateRoute from './components/PrivateRoute';
-import Login from './features/login/Login';
+import Login from './features/Login/Login';
+import { PostList } from './features/PostList/PostList';
 import { AppRoute } from './shared/appRoute';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
           </Route>
 
           <PrivateRoute token={token} path={AppRoute.Default}>
-            Posts
+            <PostList />
           </PrivateRoute>
         </Switch>
       </div>
