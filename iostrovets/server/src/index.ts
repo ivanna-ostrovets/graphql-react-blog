@@ -34,7 +34,7 @@ async function startApolloServer() {
     },
     context: async ({ req, connection }) => {
       const token = connection
-        ? connection.context.Authorization
+        ? connection.context.authToken
         : req.headers.authorization;
       const user = await getProfile(token);
 

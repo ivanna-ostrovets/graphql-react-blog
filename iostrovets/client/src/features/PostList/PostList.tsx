@@ -1,17 +1,25 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/appRoute';
 import styles from './PostList.module.css';
 
+const POST_FIELDS = gql`
+  fragment PostFields on Post {
+    id
+    title
+    dateCreated
+    image {
+      thumbnailUrl
+    }
+  }
+`;
+
 const GET_POSTS = gql`
+  ${POST_FIELDS}
   query GetPosts {
     posts {
-      id
-      title
-      dateCreated
-      image {
-        thumbnailUrl
-      }
+      ...PostFields
     }
   }
 `;
@@ -22,19 +30,38 @@ const DELETE_POST = gql`
   }
 `;
 
+export const ON_POST_DELETED = gql`
+  ${POST_FIELDS}
+  subscription OnPostDeleted {
+    posts: postDeleted {
+      ...PostFields
+    }
+  }
+`;
+
 export function PostList() {
-  const { loading, error, data } = useQuery(GET_POSTS);
+  const { data } = useQuery(GET_POSTS);
+  const { data: subData } = useSubscription(ON_POST_DELETED);
   const [deletePost] = useMutation(DELETE_POST);
+  const [posts, setPosts] = useState([]);
 
-  if (loading) return null;
+  useEffect(() => {
+    if (!data?.posts) return;
 
-  if (error) return <div>Error! {error}</div>;
+    setPosts(data?.posts);
+  }, [data?.posts]);
+
+  useEffect(() => {
+    if (!subData?.posts) return;
+
+    setPosts(subData?.posts);
+  }, [subData?.posts]);
 
   return (
     <div>
       <h1>Posts</h1>
 
-      {data.posts.map((post: any) => (
+      {posts.map((post: any) => (
         <div key={post.id} className={styles.postContainer}>
           <Link to={`${AppRoute.Posts}/${post.id}`}>
             <div className={styles.post}>
