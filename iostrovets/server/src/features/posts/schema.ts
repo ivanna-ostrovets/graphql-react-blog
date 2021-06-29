@@ -55,6 +55,6 @@ export const postTypeDefs = gql`
     postCreated: Post
     postUpdated: Post
     postPatched: Post
-    postDeleted: ID
+    postDeleted: [Post]
   }
 `;

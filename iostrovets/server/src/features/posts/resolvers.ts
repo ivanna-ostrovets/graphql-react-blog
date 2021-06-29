@@ -91,23 +91,25 @@ export const postResolvers: IResolvers = {
     },
     deletePost: async (_, { postId }, { dataSources }) => {
       await dataSources.postsApi.deletePost(postId);
-      await pubsub.publish(events.postDeleted, { postDeleted: postId });
+
+      const posts = await dataSources.postsApi.getPosts();
+      await pubsub.publish(events.postDeleted, { postDeleted: posts });
 
       return;
     },
   },
   Subscription: {
     postCreated: {
-      subscribe: () => pubsub.asyncIterator([events.postCreated]),
+      subscribe: () => pubsub.asyncIterator(events.postCreated),
     },
     postUpdated: {
-      subscribe: () => pubsub.asyncIterator([events.postUpdated]),
+      subscribe: () => pubsub.asyncIterator(events.postUpdated),
     },
     postPatched: {
-      subscribe: () => pubsub.asyncIterator([events.postPatched]),
+      subscribe: () => pubsub.asyncIterator(events.postPatched),
     },
     postDeleted: {
-      subscribe: () => pubsub.asyncIterator([events.postDeleted]),
+      subscribe: () => pubsub.asyncIterator(events.postDeleted),
     },
   },
 };
