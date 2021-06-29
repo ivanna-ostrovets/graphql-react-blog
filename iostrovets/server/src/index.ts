@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import { applyMiddleware } from 'graphql-middleware';
@@ -50,6 +51,8 @@ async function startApolloServer() {
   const app = express();
 
   app.use(graphqlUploadExpress());
+  app.use(cors());
+
   server.applyMiddleware({ app });
 
   const httpServer = http.createServer(app);

@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import styles from './App.module.css';
+import PrivateRoute from './components/PrivateRoute';
+import Login from './features/login/Login';
+import { AppRoute } from './shared/appRoute';
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className={styles.app}>
+        <Switch>
+          <Route path={AppRoute.Login}>
+            <Login setToken={setToken} />
+          </Route>
+
+          <PrivateRoute token={token} path={AppRoute.Default}>
+            Posts
+          </PrivateRoute>
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
