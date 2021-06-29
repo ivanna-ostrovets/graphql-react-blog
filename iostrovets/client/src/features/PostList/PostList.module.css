@@ -1,0 +1,12 @@
+.postContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.post {
+  margin-bottom: 10px;
+}
+
+.deletePostButton {
+  height: fit-content;
+}
