@@ -1,0 +1,13 @@
+.post {
+  max-width: 70%;
+}
+
+.postDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.comment {
+  margin-bottom: 10px;
+}

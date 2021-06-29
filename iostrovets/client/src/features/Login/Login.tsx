@@ -31,7 +31,7 @@ export default function Login({
     if (token) {
       localStorage.setItem('token', token);
       setToken(token);
-      history.push(AppRoute.Default);
+      history.push(AppRoute.Posts);
     }
   };
 

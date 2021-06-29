@@ -1,4 +1,4 @@
 export enum AppRoute {
   Login = '/login',
-  Default = '/',
+  Posts = '/posts',
 }
