@@ -1,4 +1,4 @@
-import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import express from 'express';
 import { applyMiddleware } from 'graphql-middleware';
@@ -7,43 +7,19 @@ import http from 'http';
 import {
   AuthAPI,
   authMiddleware,
-  authResolvers,
-  authTypeDefs,
   getProfile,
   permissions,
 } from './features/auth';
-import {
-  commentResolvers,
-  CommentsAPI,
-  commentTypeDefs,
-} from './features/comments';
-import { postResolvers, PostsAPI, postTypeDefs } from './features/posts';
-import { userResolvers, UsersAPI, userTypeDefs } from './features/users';
-import { resolvers } from './resolvers';
-import { queryTypeDefs } from './schema';
+import { CommentsAPI } from './features/comments';
+import { PostsAPI } from './features/posts';
+import { UsersAPI } from './features/users';
+import { schema } from './schema';
 import { FormatDateDirective } from './shared/directives/format-date';
 import { logger } from './shared/middlewares/logger';
 
 dotenv.config();
 
 async function startApolloServer() {
-  const schema = makeExecutableSchema({
-    typeDefs: [
-      queryTypeDefs,
-      authTypeDefs,
-      postTypeDefs,
-      userTypeDefs,
-      commentTypeDefs,
-    ],
-    resolvers: [
-      resolvers,
-      authResolvers,
-      postResolvers,
-      userResolvers,
-      commentResolvers,
-    ],
-  });
-
   const server: ApolloServer = new ApolloServer({
     schema: applyMiddleware(schema, logger, authMiddleware, permissions),
     dataSources: () => ({

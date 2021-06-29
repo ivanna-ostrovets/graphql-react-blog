@@ -1,29 +1,24 @@
-import { gql } from 'apollo-server';
+import { makeExecutableSchema } from 'apollo-server-express';
+import { authResolvers, authTypeDefs } from './features/auth';
+import { commentResolvers, commentTypeDefs } from './features/comments';
+import { postResolvers, postTypeDefs } from './features/posts';
+import { userResolvers, userTypeDefs } from './features/users';
+import { resolvers } from './resolvers';
+import { queryTypeDefs } from './typeDefs';
 
-export const queryTypeDefs = gql`
-  scalar EmailAddress
-  scalar Date
-  scalar URL
-  scalar Upload
-
-  directive @FormatDate on FIELD_DEFINITION
-
-  "Additional information returned from paginate function"
-  type PaginationInfo {
-    currentPage: Int!
-    total: Int!
-    pagesLeft: Int!
-  }
-
-  type Query {
-    _empty: Boolean
-  }
-
-  type Mutation {
-    _empty: Boolean
-  }
-
-  type Subscription {
-    _empty: Boolean
-  }
-`;
+export const schema = makeExecutableSchema({
+  typeDefs: [
+    queryTypeDefs,
+    authTypeDefs,
+    postTypeDefs,
+    userTypeDefs,
+    commentTypeDefs,
+  ],
+  resolvers: [
+    resolvers,
+    authResolvers,
+    postResolvers,
+    userResolvers,
+    commentResolvers,
+  ],
+});
