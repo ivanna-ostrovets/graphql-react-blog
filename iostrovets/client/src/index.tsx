@@ -80,9 +80,36 @@ const splitLink = split(
   from([errorLink, retryLink, authLink.concat(createUploadLink({ uri }))]),
 );
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Post: {
+      fields: {
+        isRead: {
+          read(_, { variables }) {
+            const postsReadCount = JSON.parse(
+              localStorage.getItem('postsReadCount') || '{}',
+            );
+
+            return Boolean(postsReadCount[variables?.id]);
+          },
+        },
+        readCount: {
+          read(_, { variables }) {
+            const postsReadCount = JSON.parse(
+              localStorage.getItem('postsReadCount') || '{}',
+            );
+
+            return postsReadCount[variables?.id] || 0;
+          },
+        },
+      },
+    },
+  },
+});
+
 const client = new ApolloClient({
   uri,
-  cache: new InMemoryCache(),
+  cache,
   link: splitLink,
 });
 

@@ -73,7 +73,7 @@ export function PostList() {
               )}
 
               <div>
-                <div>{post.title}</div>
+                <div className={styles.title}>{post.title}</div>
                 <div>{post.dateCreated}</div>
               </div>
             </div>

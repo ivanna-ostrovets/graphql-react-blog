@@ -26,6 +26,8 @@ const POST_DETAILS_FIELDS = gql`
         name
       }
     }
+    isRead @client
+    readCount @client
   }
 `;
 
@@ -65,6 +67,20 @@ export function PostDetails() {
   };
 
   useEffect(() => {
+    const postsReadCount = JSON.parse(
+      localStorage.getItem('postsReadCount') || '{}',
+    );
+
+    if (postsReadCount[id]) {
+      postsReadCount[id] += 1;
+    } else {
+      postsReadCount[id] = 1;
+    }
+
+    localStorage.setItem('postsReadCount', JSON.stringify(postsReadCount));
+  }, [id]);
+
+  useEffect(() => {
     if (!data?.post) return;
 
     setPost(data?.post);
@@ -79,6 +95,12 @@ export function PostDetails() {
       <button className={styles.editButton} onClick={() => setEdit(!isEdit)}>
         Edit
       </button>
+
+      {post.isRead && (
+        <div>
+          ✔ <span>Read {post.readCount} times</span>
+        </div>
+      )}
 
       <h1>{post.title}</h1>
 
