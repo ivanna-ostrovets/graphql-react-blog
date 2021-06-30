@@ -3,6 +3,7 @@ import {
   ApolloProvider,
   from,
   InMemoryCache,
+  makeVar,
   split,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -79,6 +80,8 @@ const splitLink = split(
   wsLink,
   from([errorLink, retryLink, authLink.concat(createUploadLink({ uri }))]),
 );
+
+export const currentUserVar = makeVar<any>({});
 
 const cache = new InMemoryCache({
   typePolicies: {

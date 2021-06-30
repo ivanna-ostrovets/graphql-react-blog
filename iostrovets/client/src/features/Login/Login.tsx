@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppRoute } from '../../shared/appRoute';
+import styles from './Login.module.css';
 
 const LOGIN = gql`
   mutation Login($email: EmailAddress!, $password: String!) {
@@ -36,8 +37,12 @@ export default function Login({
   };
 
   return (
-    <div>
-      <form onSubmit={handleLogin} autoComplete="on">
+    <div className={styles.container}>
+      <form
+        onSubmit={handleLogin}
+        autoComplete="on"
+        className={styles.loginForm}
+      >
         <label>
           Email:
           <input

@@ -1,5 +1,7 @@
 .app {
   padding: 30px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .header {
@@ -9,5 +11,13 @@
 }
 
 .header a {
+  margin-right: 10px;
+}
+
+.userSection {
+  display: flex;
+}
+
+.userSection > div {
   margin-right: 10px;
 }
