@@ -30,8 +30,8 @@ export default function Login({
     const token = data.login;
 
     if (token) {
-      localStorage.setItem('token', token);
-      setToken(token);
+      await setToken(token);
+      await localStorage.setItem('token', token);
       history.push(AppRoute.Posts);
     }
   };

@@ -5,7 +5,7 @@ import { PostForm } from '../../components/PostForm/PostForm';
 import styles from './PostDetails.module.css';
 
 const POST_DETAILS_FIELDS = gql`
-  fragment PostFields on Post {
+  fragment PostDetailsFields on Post {
     title
     dateCreated
     body

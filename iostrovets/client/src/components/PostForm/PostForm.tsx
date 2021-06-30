@@ -42,7 +42,9 @@ export function PostForm({
       <label>
         <div>Image:</div>
 
-        <img src={post.image?.url} alt={`Post ${post.title}`} />
+        {post.image?.url && (
+          <img src={post.image?.url} alt={`Post ${post.title}`} />
+        )}
 
         <input
           type="file"

@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     currentUserVar(data?.user);
   }, [data?.user]);
-  console.log(currentUser);
+
   return (
     <BrowserRouter>
       <div className={styles.app}>
@@ -41,16 +41,19 @@ function App() {
           <header className={styles.header}>
             <div>
               <Link to={AppRoute.Posts}>Posts</Link>
-              <Link to={AppRoute.Users}>Users</Link>
+              {currentUser?.role === 'ADMIN' && (
+                <Link to={AppRoute.Users}>Users</Link>
+              )}
             </div>
 
             <div className={styles.userSection}>
               <div>Hello, {currentUser?.name}</div>
 
               <button
-                onClick={() => {
-                  localStorage.setItem('token', '');
-                  setToken('');
+                onClick={async () => {
+                  await localStorage.clear();
+                  await currentUserVar({});
+                  await setToken('');
                 }}
               >
                 Log Out
@@ -72,9 +75,11 @@ function App() {
             <PostDetails />
           </PrivateRoute>
 
-          <PrivateRoute exact token={token} path={AppRoute.Users}>
-            <UsersList />
-          </PrivateRoute>
+          {currentUser?.role === 'ADMIN' && (
+            <PrivateRoute exact token={token} path={AppRoute.Users}>
+              <UsersList />
+            </PrivateRoute>
+          )}
 
           <PrivateRoute token={token} path="*">
             <PostList />
