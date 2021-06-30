@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import styles from './UsersList.module.css';
 
-const GET_USERS = gql`
+export const GET_USERS = gql`
   query GetPosts {
     users {
       id
