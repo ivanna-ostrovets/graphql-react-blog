@@ -1,6 +1,6 @@
 import { RouteProps } from 'react-router';
 import { Redirect, Route } from 'react-router-dom';
-import { AppRoute } from '../shared/appRoute';
+import { AppRoute } from '../../shared/appRoute';
 
 interface Props extends RouteProps {
   token: string;

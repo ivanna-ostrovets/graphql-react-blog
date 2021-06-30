@@ -1,13 +1,13 @@
 import {
   ApolloClient,
   ApolloProvider,
-  createHttpLink,
   InMemoryCache,
   split,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { createUploadLink } from 'apollo-upload-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -15,8 +15,6 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const uri = `http://${process.env.REACT_APP_API_DOMEN}/graphql`;
-
-const httpLink = createHttpLink({ uri });
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('token');
@@ -48,7 +46,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  authLink.concat(httpLink),
+  authLink.concat(createUploadLink({ uri })),
 );
 
 const client = new ApolloClient({

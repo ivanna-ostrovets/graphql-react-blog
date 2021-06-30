@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Login from './features/Login/Login';
 import { PostDetails } from './features/PostDetails/PostDetails';
 import { PostList } from './features/PostList/PostList';
