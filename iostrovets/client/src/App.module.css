@@ -5,9 +5,9 @@
 .header {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
-.header > a {
+.header a {
   margin-right: 10px;
 }

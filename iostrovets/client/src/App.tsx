@@ -16,8 +16,21 @@ function App() {
       <div className={styles.app}>
         {token && (
           <header className={styles.header}>
-            <Link to={AppRoute.Posts}>Posts</Link>
-            <Link to={AppRoute.Users}>Users</Link>
+            <div>
+              <Link to={AppRoute.Posts}>Posts</Link>
+              <Link to={AppRoute.Users}>Users</Link>
+            </div>
+
+            <div>
+              <button
+                onClick={() => {
+                  localStorage.setItem('token', '');
+                  setToken('');
+                }}
+              >
+                Log Out
+              </button>
+            </div>
           </header>
         )}
 
