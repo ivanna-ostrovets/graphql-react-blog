@@ -35,7 +35,7 @@ const GET_POST_BY_ID = gql`
   ${POST_DETAILS_FIELDS}
   query GetPostById($id: ID!) {
     post: postById(id: $id) {
-      ...PostFields
+      ...PostDetailsFields
     }
   }
 `;
@@ -44,7 +44,7 @@ const EDIT_POST = gql`
   ${POST_DETAILS_FIELDS}
   mutation EditPost($id: ID!, $body: PatchPostInput!) {
     post: patchPost(postId: $id, body: $body) {
-      ...PostFields
+      ...PostDetailsFields
     }
   }
 `;
